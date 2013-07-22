@@ -6,14 +6,21 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
+        <title>Photovoice Project</title>
+        <meta name="description" content="The Walking Environment">
         <meta name="viewport" content="width=device-width">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+        <!--[if lte IE 8]>
+          <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+        <![endif]-->
+        <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -22,19 +29,158 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <div id="map"></div>
+        <div id="info">
+            <div class="feature">
+                <img src="img/lenny.png"/>
+                <div id="heading">
+                  <p class="title">Forest Grove</p>
+                </div>
+            </div>
+
+            <div class="letter">
+                <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
+
+                <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
+
+                <p>"The rays of the morning sun illuminate more than the moonlight at night."</p>
+
+                <p>Thanks for your time.</p>
+            </div>
+            <p id="signature">~ Lenny Mora</p>
+            <p class="addr">SW Dudney Avenue &amp; Highway 47
+            </p>           
+        </div>
+
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='//www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+          // get the viz.json url from the CartoDB UI
+          // - click on visualize
+          // - create new visualization
+          // - make visualization public
+          // - click on publish
+          // - go to API tab
+          // window.onload = function() {
+          //   cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {cartodb_logo: false, infowindow: false});
+          // }
         </script>
+
+        <script type="infowindow/html" style="display:none;" id="infowindow_template">
+          <div class="cartodb-popup-peter"></div>
+        </script>
+
+        <!--
+          <div class="cartodb-popup">
+            <a href="#close" class="cartodb-popup-close-button close">x</a>
+
+             <div class="cartodb-popup-content-wrapper">
+               <div class="cartodb-popup-content">
+                 <img style="width: 100%" src="http://rambo.webcindario.com/images/18447755.jpg"></src>
+                 <! content.data contains the field info 
+                 <h4>{{content.data.name}}</h4>
+               </div>
+             </div>
+             <div class="cartodb-popup-tip-container"></div>
+          </div>
+        -->
+
+        <script>
+          var sql = new cartodb.SQL({ user: 'techieshark' });
+
+          cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {
+              shareable: false,
+              title: false,
+              description: false,
+              search: false,
+              tiles_loader: true,
+              center_lat: 45.519820, 
+              center_lon: -123.022499,
+              zoom: 11,
+              infowindow: false
+            })
+            .done(function(vis, layers) {
+              //layers[1].unbind('featureClick');
+              
+              // get sublayer 0 and set the infowindow template
+              var sublayer = layers[1].getSubLayer(0);
+              sublayer.infowindow.set('template', $('#infowindow_template').html());
+
+              layers[1].on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
+                // console.log("mouse over polygon with data: " + data);
+                // console.log("mouse over cartodb_id: " + data.cartodb_id);
+
+                sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: data.cartodb_id })
+                  .done(function(data) {
+                    console.log(data.rows[0]);
+                    // set header image
+                    $('#info .feature img').attr('src', data.rows[0].img);
+                    // $('#info .letter').text(data.rows[0].description_en);
+
+                    // set description as html
+                    var lines = data.rows[0].description_en.split('\n\n');
+                    var paras = [];
+                    for (var i = 0; i < lines.length; i++) {
+                      paras[i] = "<p>" + lines[i] + "</p>";
+                    }
+                    html = paras.join('\n');
+                    $('#info .letter').html(html);
+
+                    //set signature
+                    $('#info #signature').text(data.rows[0].signature);
+                  })
+                  .error(function(errors) {
+                    // errors contains a list of errors
+                    console.log("error:" + errors);
+                  })
+                });
+            });
+
+
+
+
+        </script>
+
+        <script>
+          // function main() {
+          //   var map = L.map('map', { 
+          //     zoomControl: false,
+          //     center: [0, 0],
+          //     zoom: 3
+          //   });
+
+          //   // add a nice baselayer from Stamen 
+          //   L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+          //     attribution: 'Stamen'
+          //   }).addTo(map);
+
+          //   cartodb.createLayer(map, 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json')
+          //    .addTo(map)
+          //    .on('done', function(layer) {
+          //      // get sublayer 0 and set the infowindow template
+          //      var sublayer = layer.getSubLayer(0);
+
+          //      sublayer.infowindow.set('template', $('#infowindow_template').html());
+          //     }).on('error', function() {
+          //       console.log("some error occurred");
+          //     });
+          // }
+
+          // window.onload = main;
+        </script>
+
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!--
+         <script>
+             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+             g.src='//www.google-analytics.com/ga.js';
+             s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script> -->
     </body>
 </html>
