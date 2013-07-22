@@ -36,7 +36,7 @@
             <div class="feature">
                 <img src="img/lenny.png"/>
                 <div id="heading">
-                  <p class="title">Forest Grove</p>
+                  <p class="title">Near Hwy 47</p>
                 </div>
             </div>
 
@@ -122,6 +122,9 @@
                     // set header image
                     $('#info .feature img').attr('src', data.rows[0].img);
                     // $('#info .letter').text(data.rows[0].description_en);
+
+                    // set header title
+                    $('#info .title').text(data.rows[0].location_description)
 
                     // set description as html
                     var lines = data.rows[0].description_en.split('\n\n');
