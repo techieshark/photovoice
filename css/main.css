@@ -104,6 +104,7 @@ body {
     position: absolute;
     top: 0;
     border: 5px solid #333;
+    z-index: 1001;
 }
 .feature img {
     width: 100%; 
@@ -118,17 +119,17 @@ body {
     /*font-family: 'Love Ya Like A Sister', cursive;*/
     font-family: 'Raleway', sans-serif;
 }
-#info .addr {
-    font-family: 'Raleway';
-    margin-top: -3em;
+/*#info #addr {*/
+    /*font-family: 'Raleway';*/
+    /*margin-top: -3em;*/
+    /*font-size: 18px;*/
+    /*color: #fff;*/
+    /*text-shadow: 0 0px 3px #333;*/
+    /*margin-left: 35px;*/
+/*}*/
+#info .letter , #info #signature, #info #addr{
     font-size: 18px;
-    color: #fff;
-    text-shadow: 0 0px 3px #333;
-    margin-left: 35px;
-}
-#info .letter , #info #signature{
-    font-size: 18px;
-    font-family: serif;
+    font-family: 'PT Serif', serif;
     margin: 2em 35px;
     color: #222;
 }

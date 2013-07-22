@@ -21,6 +21,8 @@
         <![endif]-->
         <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
 
+        <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
+
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -48,7 +50,7 @@
                 <p>Thanks for your time.</p>
             </div>
             <p id="signature">~ Lenny Mora</p>
-            <p class="addr">SW Dudney Avenue &amp; Highway 47
+            <p id="addr">SW Dudney Avenue &amp; Highway 47
             </p>           
         </div>
 
@@ -99,7 +101,7 @@
               search: false,
               tiles_loader: true,
               center_lat: 45.519820, 
-              center_lon: -123.022499,
+              center_lon: -122.822499,
               zoom: 11,
               infowindow: false
             })
@@ -132,6 +134,8 @@
 
                     //set signature
                     $('#info #signature').text(data.rows[0].signature);
+                    //set address
+                    $('#info #addr').text(data.rows[0].location);
                   })
                   .error(function(errors) {
                     // errors contains a list of errors
