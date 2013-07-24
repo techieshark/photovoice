@@ -100,7 +100,6 @@ body {
 #info {
     margin: 0 0 0 45%;
     background: #eee;
-    /*float: right;*/
     position: absolute;
     top: 0;
     border: 5px solid #333;
@@ -115,18 +114,9 @@ body {
     font-size: 31px;
     text-shadow: 0 0px 3px #333;
     color: #eee;
-    /*font-family: 'Sarina', cursive;*/
-    /*font-family: 'Love Ya Like A Sister', cursive;*/
     font-family: 'Raleway', sans-serif;
 }
-/*#info #addr {*/
-    /*font-family: 'Raleway';*/
-    /*margin-top: -3em;*/
-    /*font-size: 18px;*/
-    /*color: #fff;*/
-    /*text-shadow: 0 0px 3px #333;*/
-    /*margin-left: 35px;*/
-/*}*/
+
 #info .letter , #info #signature, #info #addr{
     font-size: 18px;
     font-family: 'PT Serif', serif;
@@ -136,7 +126,6 @@ body {
 #map {
     height: 900px;
     width: 100%;
-    /* width: 100%; */
 }
 
 #map .cartodb-infowindow {
