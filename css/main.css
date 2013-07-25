@@ -104,23 +104,73 @@ textarea {
     color: #eee;
     font-family: 'Raleway', sans-serif;
 }
+
+/*
+#letter p {
+  margin-bottom: 0
+}
+#letter p + p {
+  text-indent: 1.5em;
+  margin-top: 0
+}
+*/
+
 #letter p {
     font-size: 18px;
+    line-height: 1.5;
     font-family: 'PT Serif', serif;
-    font-style: italic;
-    margin: 1em 35px;
+    /*margin: 1em 35px;*/
+    margin: 0.83em 60px 0em;
+    /*margin-top: 0.83em;*/
     color: #222;
+    font-family: Georgia, serif;
 }
 #map .cartodb-infowindow {
     /* display: none; */ /* hack until we can disable via js. */
 }
 
+#letter .closing {
+    font-style: italic;
+}
+#letter p:first-child {
+    /* extra space at start of letter and between text and closing */
+    margin-top: 2.17em;
+    /* margin from http://www.w3.org/Style/Examples/007/indent.en.html */
+}
+#letter .closing p + p {
+    margin-top: 0;
+}
+header, footer {
+    background: #efefef;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    padding: 1em;
+}
+header h1 {
+    margin: 0;
+    font-size: 31px;
+    font-weight: normal;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 40%;
+}
+#sidebar, footer {
+    border-right: 5px solid black;
+}
 
-/* Layout */
-html, body, #letter {
+/* ------------------------- Layout ---------------------------------*/
+/* apply a natural box layout model to all elements */
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+  /* http://html5please.com/#box-sizing */
+ }
+
+html, body, #sidebar {
     height: 100%;  /* use entire screen */
 }
-#letter {
+#sidebar {
     float: left;
     width: 40%;
 }
@@ -133,6 +183,27 @@ html, body, #letter {
 }
 #map {
     height: 30%;
+    background: gray;
+}
+
+
+/* TODO: sticky footer. */
+/*http://www.cssstickyfooter.com/using-sticky-footer-code.html*/
+#main {overflow:auto;
+    padding-bottom: 150px;}  /* must be same height as the footer */
+
+#footer {position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;}
+
+/*Opera Fix*/
+body:before {
+    content:"";
+    height:100%;
+    float:left;
+    width:0;
+    margin-top:-32767px;/
 }
 
 
