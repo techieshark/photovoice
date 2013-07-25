@@ -93,22 +93,10 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-body {
-    background: #333;
-}
-
-#info {
-    margin: 0 0 0 45%;
-    background: #eee;
-    position: absolute;
-    top: 0;
-    border: 5px solid #333;
-    z-index: 1001;
-}
-.feature img {
+#photo img {
     width: 100%; 
 }
-.feature .title {
+#photo .caption {
     margin-top: -2em;
     margin-left: 35px;
     font-size: 31px;
@@ -116,30 +104,36 @@ body {
     color: #eee;
     font-family: 'Raleway', sans-serif;
 }
-
-#info .letter , #info #signature, #info #addr{
+#letter p {
     font-size: 18px;
     font-family: 'PT Serif', serif;
-    margin: 2em 35px;
+    font-style: italic;
+    margin: 1em 35px;
     color: #222;
 }
-#map {
-    height: 900px;
-    width: 100%;
-}
-
 #map .cartodb-infowindow {
-    display: none; /* hack until we can disable via js. */
+    /* display: none; */ /* hack until we can disable via js. */
 }
 
 
-
-
-
-
-
-
-
+/* Layout */
+html, body, #letter {
+    height: 100%;  /* use entire screen */
+}
+#letter {
+    float: left;
+    width: 40%;
+}
+#map, #photo {
+    margin-left: 40%; /* to side of letter */
+    width: 60%;
+}
+#photo {
+    height: 70%;
+}
+#map {
+    height: 30%;
+}
 
 
 /* ==========================================================================

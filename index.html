@@ -19,9 +19,25 @@
         <!--[if lte IE 8]>
           <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
         <![endif]-->
+
+        <script type="infowindow/html" style="display:none;" id="infowindow_template">
+          <div class="cartodb-popup">
+            <a href="#close" class="cartodb-popup-close-button close">x</a>
+
+             <div class="cartodb-popup-content-wrapper">
+               <div class="cartodb-popup-content">
+               {{content.data.summary_en}}
+               </div>
+             </div>
+             <div class="cartodb-popup-tip-container"></div>
+          </div>
+        </script>
+
+
         <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
 
         <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -31,27 +47,28 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <div id="map"></div>
-        <div id="info">
-            <div class="feature">
-                <img src="img/lenny.png"/>
-                <div id="heading">
-                  <p class="title">Near Hwy 47</p>
-                </div>
-            </div>
 
-            <div class="letter">
-                <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
+        <div id="letter">
+          <div class="text">
+            <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
 
-                <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
+            <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
 
-                <p>"The rays of the morning sun illuminate more than the moonlight at night."</p>
+            <p>"The rays of the morning sun illuminate more than the moonlight at night."</p>
 
-                <p>Thanks for your time.</p>
-            </div>
-            <p id="signature">~ Lenny Mora</p>
-            <p id="addr">SW Dudney Avenue &amp; Highway 47
-            </p>           
+            <p>Thanks for your time.</p>
+          </div>
+          <p id="signature">~ Lenny Mora</p>
+          <p id="addr">SW Dudney Avenue &amp; Highway 47</p>
+        </div>
+
+        <div id="photo">
+            <img src="img/lenny.png"/>
+            <div class="caption">Near Hwy 47</div>
+        </div>
+
+         <div id="map"></div>
+
         </div>
 
 
@@ -72,24 +89,6 @@
           // }
         </script>
 
-        <script type="infowindow/html" style="display:none;" id="infowindow_template">
-          <div class="cartodb-popup-peter"></div>
-        </script>
-
-        <!--
-          <div class="cartodb-popup">
-            <a href="#close" class="cartodb-popup-close-button close">x</a>
-
-             <div class="cartodb-popup-content-wrapper">
-               <div class="cartodb-popup-content">
-                 <img style="width: 100%" src="http://rambo.webcindario.com/images/18447755.jpg"></src>
-                 <! content.data contains the field info 
-                 <h4>{{content.data.name}}</h4>
-               </div>
-             </div>
-             <div class="cartodb-popup-tip-container"></div>
-          </div>
-        -->
 
         <script>
           var sql = new cartodb.SQL({ user: 'techieshark' });
@@ -101,12 +100,11 @@
               search: false,
               tiles_loader: true,
               center_lat: 45.519820, 
-              center_lon: -122.822499,
+              center_lon: -123.022499,
               zoom: 11,
               infowindow: false
             })
             .done(function(vis, layers) {
-              //layers[1].unbind('featureClick');
               
               // get sublayer 0 and set the infowindow template
               var sublayer = layers[1].getSubLayer(0);
@@ -119,12 +117,11 @@
                 sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: data.cartodb_id })
                   .done(function(data) {
                     console.log(data.rows[0]);
-                    // set header image
-                    $('#info .feature img').attr('src', data.rows[0].img);
-                    // $('#info .letter').text(data.rows[0].description_en);
+                    // set image
+                    $('#photo img').attr('src', data.rows[0].img);
 
-                    // set header title
-                    $('#info .title').text(data.rows[0].location_description)
+                    // set image caption
+                    $('#photo .caption').text(data.rows[0].location_description)
 
                     // set description as html
                     var lines = data.rows[0].description_en.split('\n\n');
@@ -133,12 +130,12 @@
                       paras[i] = "<p>" + lines[i] + "</p>";
                     }
                     html = paras.join('\n');
-                    $('#info .letter').html(html);
+                    $('#letter .text').html(html);
 
                     //set signature
-                    $('#info #signature').text(data.rows[0].signature);
+                    $('#letter #signature').text(data.rows[0].signature);
                     //set address
-                    $('#info #addr').text(data.rows[0].location);
+                    $('#letter #addr').text(data.rows[0].location);
                   })
                   .error(function(errors) {
                     // errors contains a list of errors
