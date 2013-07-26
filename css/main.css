@@ -93,16 +93,25 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+#photo {
+    position: relative;
+}
 #photo img {
     width: 100%; 
 }
 #photo .caption {
-    margin-top: -2em;
-    margin-left: 35px;
-    font-size: 31px;
-    text-shadow: 0 0px 3px #333;
+    /*margin-left: 35px;*/
+    font-size: 25px;
+    /*text-shadow: 0 0px 3px #333;*/
     color: #eee;
     font-family: 'Raleway', sans-serif;
+    position: absolute;
+    bottom: 0px;
+    background: #111; /* fallback */
+    background: rgba(0,0,0,0.7);
+    padding: 0 17px 0 35px;
+    width: 100%;
+    line-height: 2.17em; /* matches margin, below */
 }
 
 /*
@@ -140,6 +149,7 @@ textarea {
 #letter .closing p + p {
     margin-top: 0;
 }
+
 header, footer {
     background: #efefef;
     text-align: center;
@@ -157,7 +167,7 @@ footer {
     width: 40%;
 }
 #sidebar, footer {
-    border-right: 5px solid black;
+    border-right: 5px solid #111;
 }
 
 /* ------------------------- Layout ---------------------------------*/
@@ -174,6 +184,15 @@ html, body, #sidebar {
     float: left;
     width: 40%;
 }
+#letter {
+    overflow-y: scroll;
+}
+header {
+    padding: 0;
+}
+footer p {
+    margin: 0;
+}
 #map, #photo {
     margin-left: 40%; /* to side of letter */
     width: 60%;
@@ -189,10 +208,12 @@ html, body, #sidebar {
 
 /* TODO: sticky footer. */
 /*http://www.cssstickyfooter.com/using-sticky-footer-code.html*/
-#main {overflow:auto;
-    padding-bottom: 150px;}  /* must be same height as the footer */
+#letter {overflow:auto;
+    padding-bottom: 150px;
+}  /* must be same height as the footer */
 
-#footer {position: relative;
+#sidebar footer {
+    position: relative;
     margin-top: -150px; /* negative value of footer height */
     height: 150px;
     clear:both;}
