@@ -94,19 +94,6 @@
         <script src="js/main.js"></script>
 
         <script>
-          // get the viz.json url from the CartoDB UI
-          // - click on visualize
-          // - create new visualization
-          // - make visualization public
-          // - click on publish
-          // - go to API tab
-          // window.onload = function() {
-          //   cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {cartodb_logo: false, infowindow: false});
-          // }
-        </script>
-
-
-        <script>
           var sql = new cartodb.SQL({ user: 'techieshark' });
 
           cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {
@@ -164,35 +151,6 @@
 
 
         </script>
-
-        <script>
-          // function main() {
-          //   var map = L.map('map', { 
-          //     zoomControl: false,
-          //     center: [0, 0],
-          //     zoom: 3
-          //   });
-
-          //   // add a nice baselayer from Stamen 
-          //   L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-          //     attribution: 'Stamen'
-          //   }).addTo(map);
-
-          //   cartodb.createLayer(map, 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json')
-          //    .addTo(map)
-          //    .on('done', function(layer) {
-          //      // get sublayer 0 and set the infowindow template
-          //      var sublayer = layer.getSubLayer(0);
-
-          //      sublayer.infowindow.set('template', $('#infowindow_template').html());
-          //     }).on('error', function() {
-          //       console.log("some error occurred");
-          //     });
-          // }
-
-          // window.onload = main;
-        </script>
-
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <!--
