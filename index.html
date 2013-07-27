@@ -53,10 +53,12 @@
 
           <header>
             <h1>Photovoice on Foot</h1>
+          <!-- <a id="info" href="#info">Info</a> -->
           </header>
 
           <div id="letter">
             <div class="text">
+
               <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
 
               <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
@@ -73,11 +75,10 @@
           </div>
         </div>
 
-        <footer>
+<!--         <footer>
           <p>A project of Adalente Mujeres &amp; Oregon Walks</p>
-          <!-- <a id="info" href="#info">Info</a> -->
         </footer>
-
+ -->
         <div id="photo">
             <img src="img/lenny.png"/>
             <div class="caption">Near Hwy 47</div>
@@ -102,13 +103,13 @@
               description: false,
               search: false,
               tiles_loader: true,
-              center_lat: 45.519820, 
+              center_lat: 45.519820,
               center_lon: -123.022499,
               zoom: 11,
               infowindow: false
             })
             .done(function(vis, layers) {
-              
+
               // get sublayer 0 and set the infowindow template
               var sublayer = layers[1].getSubLayer(0);
               sublayer.infowindow.set('template', $('#infowindow_template').html());
