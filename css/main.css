@@ -166,6 +166,7 @@ header h1 {
     font-weight: normal;
     color: #111;
     padding: .125em 0;
+    border-top: 1px solid #c0c0c0;
 }
 header a {
     text-decoration: none;
@@ -204,6 +205,13 @@ header {
     padding: 0;
     background: #F0F0F0;
     border-bottom: 1px solid #c0c0c0;
+}
+#intro {
+    text-align: left;
+    padding: .83em 60px 1em;
+    font-size: 19px;
+    background: #000000;
+    color: #eee;
 }
 footer p {
     margin: 0;
