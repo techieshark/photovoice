@@ -167,6 +167,10 @@ header h1 {
     color: #111;
     padding: .125em 0;
 }
+header a {
+    text-decoration: none;
+    color: #111;
+}
 footer {
     position: absolute;
     bottom: 0;
