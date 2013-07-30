@@ -44,14 +44,14 @@ $(document).ready(function() {
     });
 
   $(window).on('resize', function (e) {
-    console.log('resized...');
+    // console.log('resized...');
 
     // update collapsed header
     // if collapsed, adjust collapsed size
     var header = $('header');
     if (header.hasClass('is-collapsed')) {
         header.css('margin-top', 0 - headerBoxHeight());
-        console.log('set header margin to: ' +  -headerBoxHeight());
+        // console.log('set header margin to: ' +  -headerBoxHeight());
     }
     // if expanded, do nothing.
   });
