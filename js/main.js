@@ -103,21 +103,19 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 
         // animate letter
         var last_letter = $('#letter .is-onscreen');
-        last_letter.animate(
-          {'margin-left':'-33em'},
-          { duration: 500,
-            complete: function() {
-
-              // width is fixed during animation to prevent scrollbar from appearing mid-animation,
-              // but needs to be set back to auto after complete so it will update if user adjusts page
-              // size later.
-              $(this).css('width', 'auto').css('position', 'static');
-
-            }
-          }).hide().removeClass('is-onscreen');
+        last_letter.animate({'margin-left':'-33em'},500).hide().removeClass('is-onscreen');
         $('#letter .is-offscreen').css('width', $('#letter').width()).css('position','absolute')
           .css('margin-left', '1000px').show()
-          .animate({'margin-left':0}, 500).addClass('is-onscreen').removeClass('is-offscreen');
+          .animate(
+            {'margin-left':0},
+            { duration: 500,
+              complete: function() {
+                 // width is fixed during animation to prevent scrollbar from appearing mid-animation,
+                // but needs to be set back to auto after complete so it will update if user adjusts page
+                // size later.
+                $(this).css('width', 'auto').css('position', 'static');
+              }
+            }).addClass('is-onscreen').removeClass('is-offscreen');
         last_letter.addClass('is-offscreen');
 
 
