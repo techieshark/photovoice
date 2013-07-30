@@ -47,48 +47,46 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 
           // set image caption
           var caption = data.rows[0].location_description;
-          var was_onscreen = $('#photo .caption .is-onscreen').animate({'margin-left':'-33em'}, 500).hide().removeClass('is-onscreen');
+          var last_caption = $('#photo .caption .is-onscreen').animate({'margin-left':'-33em'}, 500).hide().removeClass('is-onscreen');
           $('#photo .caption .is-offscreen').text(caption).css('margin-left', '1000px').show()
-            .animate(
-              {'margin-left':0},
-              { duration: 500,
-                complete: function() {
-                  setLetter(data);
+            .animate({'margin-left':0}, 500).addClass('is-onscreen').removeClass('is-offscreen');
+          last_caption.addClass('is-offscreen');
 
-                  // animate letter
-                  var last_letter = $('#letter .is-onscreen');
-                  last_letter.animate({'margin-left':'-33em'},500).hide().removeClass('is-onscreen');
 
-                  $('#letter .is-offscreen').css('width', $('#letter').width()).css('position','absolute')
-                    .css('margin-left', '1000px').show().animate(
-                        {'margin-left':0},
-                        { duration: 500,
-                          complete: function() {
-                            // width is fixed during animation to prevent scrollbar from appearing mid-animation,
-                            // but needs to be set back to auto after complete so it will update if user adjusts page
-                            // size later.
-                            $(this).css('width', 'auto').css('position', 'static');
+         setLetter(data);
 
-                            // and once letter slides in, we'll animate photo
-                            last_photo = $('#photo img.is-onscreen').css('z-index', -1);
-                            $('#photo img.is-offscreen').css('z-index', 1).css('margin-left', '1000px')
-                              .addClass('is-onscreen').removeClass('is-offscreen').attr('src', data.rows[0].img)
-                              .animate(
-                                {'margin-left':0},
-                                { duration: 500,
-                                  complete: function () {
-                                    last_photo.removeClass('is-onscreen').addClass('is-offscreen');
-                                    $(this).css('z-index', 0);
-                                  }
-                                });
-                          },
-                        })
-                    .addClass('is-onscreen').removeClass('is-offscreen');
-                  last_letter.addClass('is-offscreen');
-                }
-              })
-            .addClass('is-onscreen').removeClass('is-offscreen');
-          was_onscreen.addClass('is-offscreen');
+        // animate letter
+        var last_letter = $('#letter .is-onscreen');
+        last_letter.animate(
+          {'margin-left':'-33em'},
+          { duration: 500,
+            complete: function() {
+
+              // width is fixed during animation to prevent scrollbar from appearing mid-animation,
+              // but needs to be set back to auto after complete so it will update if user adjusts page
+              // size later.
+              $(this).css('width', 'auto').css('position', 'static');
+
+            }
+          }).hide().removeClass('is-onscreen');
+        $('#letter .is-offscreen').css('width', $('#letter').width()).css('position','absolute')
+          .css('margin-left', '1000px').show()
+          .animate({'margin-left':0}, 500).addClass('is-onscreen').removeClass('is-offscreen');
+        last_letter.addClass('is-offscreen');
+
+
+        // and once letter slides in, we'll animate photo
+        last_photo = $('#photo img.is-onscreen').css('z-index', -1);
+        $('#photo img.is-offscreen').css('z-index', 1).css('margin-left', '1000px')
+          .addClass('is-onscreen').removeClass('is-offscreen').attr('src', data.rows[0].img)
+          .animate(
+            {'margin-left':0},
+            { duration: 5000,
+              complete: function () {
+                last_photo.removeClass('is-onscreen').addClass('is-offscreen');
+                $(this).css('z-index', 0);
+              }
+            });
 
           // var active = $('#photo span.is-onscreen');
           //Slider Animation
