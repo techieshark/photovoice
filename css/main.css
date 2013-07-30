@@ -206,6 +206,14 @@ footer {
     left: 0;
 }
 
+header {
+    -webkit-transition: all .25s ease-out;
+    -moz-transition: all .25s ease-out;
+    -ms-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+}
+
 
 /* ------------------------- Layout ---------------------------------*/
 /* TODO: investigate custom scrollbars - http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html

@@ -1,4 +1,3 @@
-var sql = new cartodb.SQL({ user: 'techieshark' });
 
 // pull letter from database and update offscreen content
 function setLetter(data) {
@@ -17,6 +16,50 @@ function setLetter(data) {
   //set address
   $('#letter .is-offscreen .addr').text(data.rows[0].location);
 }
+
+function headerBoxHeight() {
+  var intro = $('#intro');
+  // Ugh. Must be a cleaner way to accomplish the collapsing effect...
+  return (
+          intro.height()
+          + parseInt(intro.css('padding-top'))
+          + parseInt(intro.css('padding-bottom'))
+         );
+}
+
+
+$(document).ready(function() {
+  // Handler for .ready() called.
+
+  // clicking page title toggles intro text
+  var header = $('header');
+  $('header h1 a').click(function() {
+      // if collapsed, expand
+      if (parseInt(header.css('margin-top')) < 0) {
+        header.css('margin-top', 0).removeClass('is-collapsed');
+      } else {
+      // was expanded; collapse
+        header.css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed');
+      }
+    });
+
+  $(window).on('resize', function (e) {
+    console.log('resized...');
+
+    // update collapsed header
+    // if collapsed, adjust collapsed size
+    var header = $('header');
+    if (header.hasClass('is-collapsed')) {
+        header.css('margin-top', 0 - headerBoxHeight());
+        console.log('set header margin to: ' +  -headerBoxHeight());
+    }
+    // if expanded, do nothing.
+  });
+
+});
+
+
+var sql = new cartodb.SQL({ user: 'techieshark' });
 
 cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {
     shareable: false,
@@ -38,6 +81,9 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
     layers[1].on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
       // console.log("mouse over polygon with data: " + data);
       // console.log("mouse over cartodb_id: " + data.cartodb_id);
+
+      // hide page intro text
+      $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
 
       sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: data.cartodb_id })
         .done(function(data) {
