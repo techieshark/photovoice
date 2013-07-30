@@ -76,12 +76,12 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 
 
         // and once letter slides in, we'll animate photo
-        last_photo = $('#photo img.is-onscreen').css('z-index', -1);
+        last_photo = $('#photo img.is-onscreen');
         $('#photo img.is-offscreen').css('z-index', 1).css('margin-left', '1000px')
           .addClass('is-onscreen').removeClass('is-offscreen').attr('src', data.rows[0].img)
           .animate(
             {'margin-left':0},
-            { duration: 5000,
+            { duration: 500,
               complete: function () {
                 last_photo.removeClass('is-onscreen').addClass('is-offscreen');
                 $(this).css('z-index', 0);
