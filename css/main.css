@@ -97,6 +97,7 @@ textarea {
 
 #photo {
     position: relative;
+    background: #FFF;
 }
 #photo img {
     width: 100%;
@@ -118,6 +119,7 @@ textarea {
 ;
     background: white;
     color: #111;
+    z-index: 1; /* keep caption above images */
 }
 
 /*
@@ -183,13 +185,13 @@ footer {
     border-right: 5px solid #111;
 }
 
-.caption div {
+.caption div.is-onscreen {
     display: inline-block;
 }
 
 
 /* -------------------------- Animation------------------------------*/
-.caption div.is-offscreen {
+.is-offscreen {
     display: none;
 }
 
