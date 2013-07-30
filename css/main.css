@@ -93,6 +93,8 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+/* -------------------------- Modules -------------------------------*/
+
 #photo {
     position: relative;
 }
@@ -181,7 +183,31 @@ footer {
     border-right: 5px solid #111;
 }
 
+.caption div {
+    display: inline-block;
+}
+
+
+/* -------------------------- Animation------------------------------*/
+.caption div.is-offscreen {
+    display: none;
+}
+
+.caption div {
+    /* prevent text in div from wrapping when we push it off right edge. */
+    position: absolute;
+    left: 0;
+}
+
+#photo img {
+    position: absolute;
+    left: 0;
+}
+
+
 /* ------------------------- Layout ---------------------------------*/
+/* TODO: investigate custom scrollbars - http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html
+  http://css-tricks.com/custom-scrollbars-in-webkit/  */;
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
@@ -200,7 +226,10 @@ html, body, #sidebar {
 }
 #letter {
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
+
+
 header {
     padding: 0;
     background: #F0F0F0;

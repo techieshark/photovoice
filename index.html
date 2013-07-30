@@ -73,29 +73,40 @@
           </header>
 
           <div id="letter">
-            <div class="text">
-              <!--
-              <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
+            <div class="is-onscreen">
+              <div class="text">
+                <!--
+                <p>Through this letter, I would like to share with you my experience of the area where I live.</p>
 
-              <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
+                <p>It is a quiet area but it needs some modifications. In the mornings when I walk I enjoy nature, to feel the sun's rays welcome you to a new day is very pleasant. But when I walk in the evenings, it is very different in the company of my daughters on some parts of the block. Most of the time the cars grip the hard curve. One can not see the cars coming, only the sound. Another thing is that my neighbors have dogs and when we go by the house of the neighbors the dogs bark loud and begin to follow my daughter, making her very afraid. If we were to walk too late, there are no lamps around the block and that is also dangerous.</p>
 
-              <p>"The rays of the morning sun illuminate more than the moonlight at night."</p> -->
+                <p>"The rays of the morning sun illuminate more than the moonlight at night."</p> -->
+              </div>
+
+              <div class="closing">
+                <!-- <p id="valediction">Thanks for your time,</p>
+                <p id="signature">Lenny Mora</p>
+                <p id="addr">SW Dudney Avenue &amp; Highway 47</p> -->
+                <p class="signature"></p>
+                <p class="addr"></p>
+              </div>
             </div>
-
-            <div class="closing">
-              <!-- <p id="valediction">Thanks for your time,</p>
-              <p id="signature">Lenny Mora</p>
-              <p id="addr">SW Dudney Avenue &amp; Highway 47</p> -->
-              <p id="signature"></p>
-              <p id="addr"></p>
+            <!-- TODO: add the following w/ JS -->
+            <div class="is-offscreen">
+              <div class="text"></div>
+              <div class="closing">
+                <p class="signature"></p>
+                <p class="addr"></p>
+              </div>
             </div>
-
           </div>
         </div>
 
         <div id="photo">
-            <img src="img/lenny.png"/>
-            <div class="caption"><div class="is-onscreen">Near Hwy 47</div><div class="is-offscreen">Another place</div><span class="placeholder">&nbsp;</span></div>
+            <img class="is-onscreen" src="img/lenny.png"/><img class="is-offscreen"/>
+            <div class="caption"><div class="is-onscreen">Near Hwy 47</div><div class="is-offscreen">Another place</div>
+            <span class="placeholder">&nbsp;</span><!-- just to get some height -->
+          </div>
         </div>
 
          <div id="map"></div>
@@ -106,6 +117,8 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="http://malsup.github.com/min/jquery.cycle2.min.js"></script>
+
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
