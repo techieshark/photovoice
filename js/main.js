@@ -31,6 +31,8 @@ function headerBoxHeight() {
 $(document).ready(function() {
   // Handler for .ready() called.
 
+  adjust_heights();
+
   // clicking page title toggles intro text
   var header = $('header');
   $('header h1 a').click(function() {
@@ -43,6 +45,8 @@ $(document).ready(function() {
       }
     });
 
+
+  // update module sizes on window resize
   $(window).on('resize', function (e) {
     // console.log('resized...');
 
@@ -54,10 +58,20 @@ $(document).ready(function() {
         // console.log('set header margin to: ' +  -headerBoxHeight());
     }
     // if expanded, do nothing.
+
+    adjust_heights();
   });
 
 });
 
+function adjust_heights() {
+  // Update map size
+  var photo_height = $('#photo img.is-onscreen').height();
+  var remainder = $(window).height() - photo_height;
+  $('#photo').height(photo_height); // resize container according to child img
+  $('#map').height(remainder);
+  console.log("#map height set to " + $('#map').height());
+}
 
 var sql = new cartodb.SQL({ user: 'techieshark' });
 
@@ -73,6 +87,16 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
     infowindow: false
   })
   .done(function(vis, layers) {
+
+     // preload images
+    sql.execute("SELECT img FROM photovoice").done(function(data) {
+      preloader = $('#preloader');
+      data.rows.forEach(function(row) {
+        if (row['img'] != '') {
+          preloader.append($('<img src="' + row['img'] + '"/>'));
+        }
+      });
+    });
 
     // get sublayer 0 and set the infowindow template
     var sublayer = layers[1].getSubLayer(0);
@@ -158,4 +182,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
           console.log("error:" + errors);
         })
       });
+
+
+
   });

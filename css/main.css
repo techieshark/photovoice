@@ -202,7 +202,7 @@ footer {
 }
 
 #photo img {
-    position: absolute;
+    position: absolute; /* ensures that images slide on top of each other, not hidden lower on the screen */
     left: 0;
 }
 
@@ -213,6 +213,25 @@ header {
     -o-transition: all .25s ease-out;
     transition: all .25s ease-out;
 }
+
+
+@media screen {
+    div#preloader {
+        position: absolute;
+        left: -9999px;
+        top:  -9999px;
+        }
+    div#preloader img {
+        display: block;
+        }
+    }
+@media print {
+    div#preloader,
+    div#preloader img {
+        visibility: hidden;
+        display: none;
+        }
+    }
 
 
 /* ------------------------- Layout ---------------------------------*/
