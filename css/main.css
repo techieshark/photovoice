@@ -233,6 +233,12 @@ header {
         }
     }
 
+#intro p {
+  margin: 0;
+}
+#intro p + p {
+    margin-top: 1em;
+}
 
 /* ------------------------- Layout ---------------------------------*/
 /* TODO: investigate custom scrollbars - http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html
@@ -263,10 +269,11 @@ header {
     padding: 0;
     background: #F0F0F0;
     border-bottom: 1px solid #c0c0c0;
+    border-right: 1px solid #c0c0c0;
 }
 #intro {
     text-align: left;
-    padding: .83em 60px 1em;
+    padding: .83em 20px 1em;
     font-size: 19px;
     background: #000000;
     color: #eee;
