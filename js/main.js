@@ -67,6 +67,7 @@ $(document).ready(function() {
 function adjust_heights() {
   // Update map size
   var photo_height = $('#photo img.is-onscreen').height();
+  if (!photo_height) return; // don't adjust size if image isn't loaded
   var remainder = $(window).height() - photo_height;
   $('#photo').height(photo_height); // resize container according to child img
   $('#map').height(remainder);
