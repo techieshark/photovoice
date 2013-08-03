@@ -128,15 +128,16 @@ textarea {
     z-index: 1; /* keep caption above images */
 }
 
-/*
-#letter p {
-  margin-bottom: 0
+@media screen and (max-device-width: 480px) {
+  /* on small devices, conserve vertical space with text-indent
+   * rather than margin-top on paragraphs */
+  #letter p + p {
+    text-indent: 1.5em;
+    margin-top: 0
+  }
+
 }
-#letter p + p {
-  text-indent: 1.5em;
-  margin-top: 0
-}
-*/
+
 
 #letter p {
     font-size: 18px;
