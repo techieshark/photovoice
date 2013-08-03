@@ -169,7 +169,6 @@ textarea {
 }
 
 header {
-    background: #efefef;
     text-align: center;
     font-family: 'Raleway', sans-serif;
     padding: 1em;
@@ -180,7 +179,7 @@ header h1 {
     font-weight: normal;
     color: #111;
     padding: .125em 0;
-    border-top: 1px solid #c0c0c0;
+    border-top: 1px solid whitesmoke;
 }
 header a {
     text-decoration: none;
@@ -236,21 +235,21 @@ header a {
 
 header {
     padding: 0;
-    background: #F0F0F0;
-    border-bottom: 1px solid #c0c0c0;
-    border-right: 1px solid #c0c0c0;
+    border-bottom: 1px solid whiteSmoke;
+    border-right: 1px solid whitesmoke;
     -webkit-transition: all .25s ease-out;
     -moz-transition: all .25s ease-out;
     -ms-transition: all .25s ease-out;
     -o-transition: all .25s ease-out;
     transition: all .25s ease-out;
+    border-bottom: 1px solid #c0c0c0;
 }
 #intro {
     text-align: left;
     padding: .83em 20px 1em;
     font-size: 19px;
-    background: black;
-    color: #eee;
+    background: white;
+    color: black;
 }
 #map {
     height: 30%;
@@ -290,7 +289,10 @@ header {
   #photo img {
     position: absolute; /* ensures that images slide on top of each other, not hidden lower on the screen */
     left: 0;
-  }
+
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
   #photo .caption {
     position: absolute;
     bottom: 0px;
