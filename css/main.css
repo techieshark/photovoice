@@ -108,7 +108,7 @@ textarea {
 }
 #photo img {
     width: 100%;
-    overflow: none;
+    overflow: hidden;
 }
 #photo .caption {
     /*margin-left: 35px;*/
@@ -116,11 +116,9 @@ textarea {
     /*text-shadow: 0 0px 3px #333;*/
     color: #eee;
     font-family: 'Raleway', sans-serif;
-    position: absolute;
-    bottom: 0px;
     background: #111; /* fallback */
     background: rgba(0,0,0,0.7);
-    padding: 0 17px 0 0;
+    margin: 0 17px 0 0;
     width: 100%;
     line-height: 2.17em; /* matches margin, below */
     background: white;
@@ -128,7 +126,8 @@ textarea {
     z-index: 1; /* keep caption above images */
 }
 
-@media screen and (max-device-width: 480px) {
+@media screen and (max-device-width: 799px) {
+/*@media screen and (max-device-width: 480px) {*/
   /* on small devices, conserve vertical space with text-indent
    * rather than margin-top on paragraphs */
   #letter p + p {
@@ -136,11 +135,15 @@ textarea {
     margin-top: 0
   }
 
+  /* and tighten spacing */
+  #letter p {
+    margin: 0em 20px;
+  }
+
 }
 
 
 #letter p {
-    font-size: 18px;
     line-height: 1.5;
     font-family: 'PT Serif', serif;
     /*margin: 1em 35px;*/
@@ -183,16 +186,13 @@ header a {
     text-decoration: none;
     color: #111;
 }
-#sidebar {
-    border-right: 5px solid #111;
-}
 
-.caption div.is-onscreen {
-    display: inline-block;
-}
 
 
 /* -------------------------- Animation------------------------------*/
+.caption div.is-onscreen {
+    display: inline-block;
+}
 .is-offscreen {
     display: none;
 }
@@ -202,20 +202,6 @@ header a {
     position: absolute;
     left: 0;
 }
-
-#photo img {
-    position: absolute; /* ensures that images slide on top of each other, not hidden lower on the screen */
-    left: 0;
-}
-
-header {
-    -webkit-transition: all .25s ease-out;
-    -moz-transition: all .25s ease-out;
-    -ms-transition: all .25s ease-out;
-    -o-transition: all .25s ease-out;
-    transition: all .25s ease-out;
-}
-
 
 @media screen {
     div#preloader {
@@ -247,47 +233,76 @@ header {
   /* http://html5please.com/#box-sizing */
  }
 
-html, body, #sidebar {
-    height: 100%;  /* use entire screen */
-}
-#sidebar {
-    float: left;
-    width: 40%;
-    border: none;
-}
-#letter {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-}
-
 
 header {
     padding: 0;
     background: #F0F0F0;
     border-bottom: 1px solid #c0c0c0;
     border-right: 1px solid #c0c0c0;
+    -webkit-transition: all .25s ease-out;
+    -moz-transition: all .25s ease-out;
+    -ms-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
 }
 #intro {
     text-align: left;
     padding: .83em 20px 1em;
     font-size: 19px;
-    background: #000000;
+    background: black;
     color: #eee;
-}
-#map, #photo {
-    margin-left: 40%; /* to side of letter */
-    width: 60%;
-}
-#photo {
-    height: 70%;
-    overflow: hidden;
 }
 #map {
     height: 30%;
     border-left: 1px solid #c0c0c0;
     border-top: 1px solid #c0c0c0;
+    bottom: 0;
 }
 
+@media screen and (max-device-width: 799px) {
+  #map {
+    min-height: 300px;
+    border-left: none;
+  }
+  header {
+    border-right: none;
+  }
+
+}
+@media screen and (min-device-width: 800px) {
+  html, body, #sidebar {
+    height: 100%;  /* use entire screen */
+  }
+  #sidebar {
+    float: left;
+    width: 40%;
+  }
+  #map, #photo {
+    margin-left: 40%; /* to side of letter */
+    width: 60%;
+    position: absolute;
+  }
+  #photo {
+      height: 70%;
+      overflow: hidden;
+      top: 0;
+  }
+  #photo img {
+    position: absolute; /* ensures that images slide on top of each other, not hidden lower on the screen */
+    left: 0;
+  }
+  #photo .caption {
+    position: absolute;
+    bottom: 0px;
+  }
+  #letter {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #letter p {
+    margin: 0.83em 60px 0em;
+  }
+}
 
 /* ==========================================================================
    Helper classes
