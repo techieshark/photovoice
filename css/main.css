@@ -158,7 +158,7 @@ textarea {
     margin-top: 0;
 }
 
-header, footer {
+header {
     background: #efefef;
     text-align: center;
     font-family: 'Raleway', sans-serif;
@@ -176,12 +176,7 @@ header a {
     text-decoration: none;
     color: #111;
 }
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 40%;
-}
-#sidebar, footer {
+#sidebar {
     border-right: 5px solid #111;
 }
 
@@ -278,9 +273,6 @@ header {
     background: #000000;
     color: #eee;
 }
-footer p {
-    margin: 0;
-}
 #map, #photo {
     margin-left: 40%; /* to side of letter */
     width: 60%;
@@ -293,28 +285,6 @@ footer p {
     height: 30%;
     border-left: 1px solid #c0c0c0;
     border-top: 1px solid #c0c0c0;
-}
-
-
-/* TODO: sticky footer. */
-/*http://www.cssstickyfooter.com/using-sticky-footer-code.html*/
-#letter {overflow:auto;
-
-}  /* must be same height as the footer */
-
-#sidebar footer {
-    position: relative;
-    margin-top: -150px; /* negative value of footer height */
-    height: 150px;
-    clear:both;}
-
-/*Opera Fix*/
-body:before {
-    content:"";
-    height:100%;
-    float:left;
-    width:0;
-    margin-top:-32767px;/
 }
 
 
