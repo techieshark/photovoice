@@ -95,6 +95,13 @@ textarea {
 
 /* -------------------------- Modules -------------------------------*/
 
+#intro p {
+  margin: 0;
+}
+#intro p + p {
+    margin-top: 1em;
+}
+
 #photo {
     position: relative;
     background: #FFF;
@@ -116,7 +123,6 @@ textarea {
     padding: 0 17px 0 0;
     width: 100%;
     line-height: 2.17em; /* matches margin, below */
-;
     background: white;
     color: #111;
     z-index: 1; /* keep caption above images */
@@ -228,12 +234,6 @@ header {
         }
     }
 
-#intro p {
-  margin: 0;
-}
-#intro p + p {
-    margin-top: 1em;
-}
 
 /* ------------------------- Layout ---------------------------------*/
 /* TODO: investigate custom scrollbars - http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html
