@@ -78,7 +78,7 @@ function adjust_heights() {
   if (!photo_height) return; // don't adjust size if image isn't loaded
   var remainder = $(window).height() - photo_height;
   //$('#photo').height(photo_height); // resize container according to child img
-  $('#map').height(remainder);
+  $('#map').css('height', remainder + 'px');
   console.log("#map height set to " + $('#map').height());
 }
 
