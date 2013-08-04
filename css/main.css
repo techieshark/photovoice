@@ -252,6 +252,7 @@ header {
     border-left: 1px solid #c0c0c0;
     border-top: 1px solid #c0c0c0;
     bottom: 0;
+
 }
 
 @media screen and (max-width: 799px) {
@@ -276,6 +277,12 @@ header {
     margin-left: 40%; /* to side of letter */
     width: 60%;
     position: absolute;
+    /* ensure that border does not impact width of map */
+    /* Without this, window's horizontal scroll bar appeared
+     * due to overflowing content. */
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
   }
   #photo {
       height: 70%;
