@@ -124,6 +124,7 @@ textarea {
     z-index: 1; /* keep caption above images */
 }
 
+
 @media screen and (max-width: 799px) {
 /*@media screen and (max-device-width: 480px) {*/
   /* on small devices, conserve vertical space with text-indent
@@ -139,16 +140,18 @@ textarea {
   }
 
 }
-
+@media screen and (min-width: 800px) {
+  #letter p {
+    margin: 0.83em 60px 0em;
+  }
+}
 
 #letter p {
     line-height: 1.5;
     font-family: 'PT Serif', serif;
-    margin: 0.83em 60px 0em;
     color: #222;
     font-family: Georgia, serif;
 }
-
 #letter .closing {
     font-style: italic;
 }
