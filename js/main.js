@@ -31,6 +31,13 @@ function headerBoxHeight() {
 $(document).ready(function() {
   // Handler for .ready() called.
 
+  // Revert to a previously saved state
+  // TODO: test on IE
+  window.addEventListener('popstate', function(event) {
+    console.log('popstate fired; loading story ' + event.state.story_id);
+    loadStory(event.state.story_id);
+  });
+
   adjust_heights();
 
   // clicking page title toggles intro text
@@ -108,10 +115,19 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
       // console.log("mouse over polygon with data: " + data);
       // console.log("mouse over cartodb_id: " + data.cartodb_id);
 
+      //set new history state so we can come back to this item later. (TODO: test on IE < 10)
+      var state = { story_id: data.cartodb_id };
+      history.pushState(state, "", "#photo/" + state.story_id);
+
+      loadStory(data.cartodb_id);
+    });
+  });
+
+function loadStory(story_id) {
       // hide page intro text
       $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
 
-      sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: data.cartodb_id })
+      sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: story_id })
         .done(function(data) {
           console.log(data.rows[0]);
           // set image
@@ -182,9 +198,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
         .error(function(errors) {
           // errors contains a list of errors
           console.log("error:" + errors);
-        })
-      });
+        });
+}
 
 
-
-  });
