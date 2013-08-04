@@ -126,7 +126,7 @@ textarea {
     z-index: 1; /* keep caption above images */
 }
 
-@media screen and (max-device-width: 799px) {
+@media screen and (max-width: 799px) {
 /*@media screen and (max-device-width: 480px) {*/
   /* on small devices, conserve vertical space with text-indent
    * rather than margin-top on paragraphs */
@@ -258,7 +258,7 @@ header {
     bottom: 0;
 }
 
-@media screen and (max-device-width: 799px) {
+@media screen and (max-width: 799px) {
   #map {
     min-height: 300px;
     border-left: none;
@@ -268,7 +268,7 @@ header {
   }
 
 }
-@media screen and (min-device-width: 800px) {
+@media screen and (min-width: 800px) {
   html, body, #sidebar {
     height: 100%;  /* use entire screen */
   }
