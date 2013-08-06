@@ -62,7 +62,7 @@ $(document).ready(function() {
 
   // clicking page title toggles intro text
   var header = $('header');
-  $('header h1 a').click(function() {
+  $('header h1 a').click(function(e) {
       // if collapsed, expand
       if (parseInt(header.css('margin-top')) < 0) {
         header.css('margin-top', 0).removeClass('is-collapsed');
@@ -70,6 +70,7 @@ $(document).ready(function() {
       // was expanded; collapse
         header.css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed');
       }
+      e.preventDefault();
     });
 
 
