@@ -95,13 +95,6 @@ textarea {
 
 /* -------------------------- Modules -------------------------------*/
 
-#intro p {
-  margin: 0;
-}
-#intro p + p {
-    margin-top: 1em;
-}
-
 #photo {
     position: relative;
     background: #FFF;
@@ -136,15 +129,20 @@ textarea {
 
   /* and tighten spacing */
   #letter p {
-    margin: 0em 20px;
+    margin: 0 20px;
   }
 
 }
 @media screen and (min-width: 800px) {
   #letter p {
-    margin: 0.83em 60px 0em;
+    margin: 0.83em 20px 0;
   }
 }
+
+#intro p {
+  margin: 0.83em 20px;
+}
+
 
 #letter p {
     line-height: 1.5;
@@ -154,6 +152,7 @@ textarea {
 }
 #letter .closing {
     font-style: italic;
+    margin-bottom: .83em;
 }
 #letter p:first-child {
     /* extra space at start of letter and between text and closing */
@@ -161,7 +160,7 @@ textarea {
     /* margin from http://www.w3.org/Style/Examples/007/indent.en.html */
 }
 #letter .closing p + p {
-    margin-top: 0;
+    margin-top: 0; /* paragraphs in closing / signatuure treated as one logical block */
 }
 
 header {
@@ -242,7 +241,6 @@ header {
 }
 #intro {
     text-align: left;
-    padding: .83em 20px 1em;
     font-size: 19px;
     background: white;
     color: black;
@@ -303,9 +301,6 @@ header {
   #letter {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-  }
-  #letter p {
-    margin: 0.83em 60px 0em;
   }
 }
 
