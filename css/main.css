@@ -231,8 +231,6 @@ header a {
 
 
 /* ------------------------- Layout ---------------------------------*/
-/* TODO: investigate custom scrollbars - http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html
-  http://css-tricks.com/custom-scrollbars-in-webkit/  */;
 /* apply a natural box layout model to all elements */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
@@ -315,6 +313,14 @@ header {
   #letter {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    direction: rtl; /* move the scrollbar to the left side so it isn't flush with photo caption */
+  }
+  #letter * {
+    direction: ltr; /* restore text direction from scrollbar moving trick above */
+    /* TODO: investigate custom scrollbars (use a narrow/minimal/low contrast bar
+     *       and keep it on the right side).
+     *       http://manos.malihu.gr/tuts/jquery_custom_scrollbar.html
+     *       http://css-tricks.com/custom-scrollbars-in-webkit/  */
   }
 }
 
