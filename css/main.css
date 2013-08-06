@@ -189,6 +189,7 @@ header h1 {
     color: #111;
     padding: .125em 0;
     border-top: 1px solid whitesmoke;
+    border-bottom: 1px solid #c0c0c0; /* darker: more visual separation from content below. */
 }
 header a {
     text-decoration: none;
@@ -242,14 +243,12 @@ header a {
 
 header {
     padding: 0;
-    border-bottom: 1px solid whiteSmoke;
     border-right: 1px solid whitesmoke;
     -webkit-transition: all .25s ease-out;
     -moz-transition: all .25s ease-out;
     -ms-transition: all .25s ease-out;
     -o-transition: all .25s ease-out;
     transition: all .25s ease-out;
-    border-bottom: 1px solid #c0c0c0;
 }
 #intro {
     text-align: left;
