@@ -133,7 +133,7 @@ p {
     line-height: 2.17em; /* matches margin, below */
     background: white;
     color: #111;
-    z-index: 1; /* keep caption above images */
+    z-index: 3; /* keep caption above images */
 }
 
 
@@ -223,10 +223,18 @@ header a {
 
 /* -------------------------- Animation------------------------------*/
 .caption div.is-onscreen {
-    display: inline-block;
+    display: inline-block; /* allow two caption divs side by side */
 }
 .is-offscreen {
     display: none;
+}
+#letter .is-onscreen {
+    z-index: 0; /* prevent text from showing above photo during transition */
+}
+#photo img {
+    top: 0;
+    position: relative;
+    z-index: 1; /* keep this above text sliding in */
 }
 
 .caption div {
@@ -329,9 +337,6 @@ header {
       top: 0;
   }
   #photo img {
-    position: absolute; /* ensures that images slide on top of each other, not hidden lower on the screen */
-    left: 0;
-
     border-right: 1px solid black;
     border-bottom: 1px solid black;
 }

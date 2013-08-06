@@ -182,16 +182,25 @@ function loadStory(story_id) {
         last_letter.addClass('is-offscreen');
 
 
-        // and once letter slides in, we'll animate photo
+        // ... and once letter slides in, we'll animate photo.
+        /* Note: z-index order used to keep select content above other content:
+        * 0 - text sliding in (keep under photo)
+        * 1 - photo
+        * 2 - new photo in transition (keep above old photo)
+        * 3 - caption (keep above new photo), set in CSS */
         last_photo = $('#photo img.is-onscreen');
-        $('#photo img.is-offscreen').css('z-index', 1).css('margin-left', '1000px')
-          .addClass('is-onscreen').removeClass('is-offscreen').attr('src', data.rows[0].img)
+        $('#photo img.is-offscreen').css('z-index', 2).css('margin-left', '1000px')
+          .css('position', 'absolute').addClass('is-onscreen').removeClass('is-offscreen')
+          .attr('src', data.rows[0].img)
           .animate(
             {'margin-left':0},
             { duration: 500,
               complete: function () {
+                /* after we've animated the image in, we 1) hide the previous image,
+                 * 2) switch back to relative positioning to take up the proper space, and
+                 * 3) lower the z-index since we're not trying to cover the old image */
                 last_photo.removeClass('is-onscreen').addClass('is-offscreen');
-                $(this).css('z-index', 0);
+                $(this).css('position','relative').css('z-index', 1);
               }
             });
 
