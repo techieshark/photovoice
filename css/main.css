@@ -275,6 +275,13 @@ header {
 
 }
 @media screen and (min-width: 800px) {
+  html,body {
+    /* On desktop display, we shouldn't need to scroll page since we're trying
+     * to use all (and only) the full screen. This prevents the page scrollbar
+     * from flashing while the header drawer slides in/out and the letter
+     * area expands and contracts. */
+    overflow-y: hidden;
+  }
   html, body, #sidebar {
     height: 100%;  /* use entire screen */
   }
