@@ -141,7 +141,7 @@ p {
 /*@media screen and (max-device-width: 480px) {*/
   /* on small devices, conserve vertical space with text-indent
    * rather than margin-top on paragraphs */
-  #letter p + p {
+  #letter .text p + p { /* purposefully excluding .closing paragraphs */
     text-indent: 1.5em;
     padding-top: 0
   }
