@@ -58,8 +58,6 @@ $(document).ready(function() {
     }
   });
 
-  adjust_heights();
-
   // clicking page title toggles intro text
   var header = $('header');
   $('header h1 a').click(function(e) {
@@ -70,9 +68,12 @@ $(document).ready(function() {
       // was expanded; collapse
         header.css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed');
       }
+      adjust_heights();
       e.preventDefault();
     });
 
+  // update module sizes on page load
+  adjust_heights();
 
   // update module sizes on window resize
   $(window).on('resize', function (e) {
@@ -92,7 +93,25 @@ $(document).ready(function() {
 
 });
 
+function visibleHeaderSize() {
+    var header = $('header');
+    if (header.hasClass('is-collapsed')) {
+      return 0 + $('h1', header).outerHeight();
+    } else { // expanded
+      return header.outerHeight();
+    }
+}
+
+var smallest_breakpoint = 800;
+
 function adjust_heights() {
+
+  // mobile size gets different layout without dynamic height.
+  if ($(window).width() < smallest_breakpoint) {
+    $('#letter').css('height', 'auto');
+    return;
+  }
+
   // Update map size
   var photo_height = $('#photo').height();
   //var photo_height = $('#photo img.is-onscreen').height();
@@ -101,6 +120,9 @@ function adjust_heights() {
   //$('#photo').height(photo_height); // resize container according to child img
   $('#map').css('height', remainder + 'px');
   console.log("#map height set to " + $('#map').height());
+
+  // Update #letter height.
+  $('#letter').height($(window).height() - visibleHeaderSize());
 }
 
 var sql = new cartodb.SQL({ user: 'techieshark' });
@@ -147,6 +169,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 function loadStory(story_id) {
       // hide page intro text
       $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
+      adjust_heights();
 
       sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: story_id })
         .done(function(data) {
@@ -230,5 +253,3 @@ function loadStory(story_id) {
           console.log("error:" + errors);
         });
 }
-
-

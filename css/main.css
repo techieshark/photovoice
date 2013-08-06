@@ -275,6 +275,8 @@ header a {
 header {
     padding: 0;
     border-right: 1px solid whitesmoke;
+}
+header, #letter {
     -webkit-transition: all .25s ease-out;
     -moz-transition: all .25s ease-out;
     -ms-transition: all .25s ease-out;
