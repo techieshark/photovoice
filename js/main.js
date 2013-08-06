@@ -22,8 +22,8 @@ function headerBoxHeight() {
   // Ugh. Must be a cleaner way to accomplish the collapsing effect...
   return (
           intro.height()
-          + parseInt(intro.css('padding-top'))
-          + parseInt(intro.css('padding-bottom'))
+          + parseFloat(intro.css('padding-top'))
+          + parseFloat(intro.css('padding-bottom'))
          );
 }
 
