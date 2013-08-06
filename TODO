@@ -9,4 +9,5 @@ ideas -
 * Photo previews in letter area on page load
 * Info icon / hide icon in header
 * "click map or start with _Jane_Random's_story_."
-" 
+* When loading a story/photo from a url or the browser history, we should also select the corresponding point on the map and show its info display 
+* If a point has been selected via the map, clicking it again shouldn't reload the associated content
