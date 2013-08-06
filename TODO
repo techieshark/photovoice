@@ -1,0 +1,12 @@
+ideas - 
+
+* most compact design: when visually limited, don't show both map and story (just one or the other). [fixed position map icon top right]
+* When user swipes to sides, should move forwards, backwards through content.  both small and large screens should work this way. 
+* Provide on-screen user-friendly error message when we are missing an internet connection
+* Provide testing interface that doesn't use internet
+* test on IE (especially JS: map, history api; and responsive)
+* En/Es switcher
+* Photo previews in letter area on page load
+* Info icon / hide icon in header
+* "click map or start with _Jane_Random's_story_."
+" 
