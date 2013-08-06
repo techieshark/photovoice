@@ -27,6 +27,17 @@ function headerBoxHeight() {
          );
 }
 
+// from http://css-tricks.com/snippets/javascript/get-url-variables/
+function getQueryVariable(variable)
+{
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if(pair[0] == variable){return pair[1];}
+  }
+  return(false);
+}
 
 $(document).ready(function() {
   // Handler for .ready() called.
@@ -34,8 +45,17 @@ $(document).ready(function() {
   // Revert to a previously saved state
   // TODO: test on IE
   window.addEventListener('popstate', function(event) {
-    console.log('popstate fired; loading story ' + event.state.story_id);
-    loadStory(event.state.story_id);
+    // popstate event occurs on page load but we may or may not have a state to work with.
+    if (event.state && event.state.story_id) { // if provided a state, we can return to that state's story
+      console.log('popstate fired; loading story ' + event.state.story_id);
+      loadStory(event.state.story_id);
+    }
+    else { // even without a state, we may have a story in the url; if so, load it.
+      id_from_url = getQueryVariable('photo');
+      if (id_from_url) {
+        loadStory(id_from_url);
+      }
+    }
   });
 
   adjust_heights();
@@ -117,7 +137,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 
       //set new history state so we can come back to this item later. (TODO: test on IE < 10)
       var state = { story_id: data.cartodb_id };
-      history.pushState(state, "", "#photo/" + state.story_id);
+      history.pushState(state, "", "?photo=" + state.story_id);
 
       loadStory(data.cartodb_id);
     });
