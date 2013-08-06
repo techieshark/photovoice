@@ -93,6 +93,25 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+p {
+  margin: 0;
+  padding: 1em;
+  /* We use padding rather than margin to avoid the situation illustrated below,
+   * where the first paragraph's top margin pushes its containing div down on the
+   * screen, adding visual height to the container, but in such a way that jQuery's
+   * outerHeight() method does not include that top margin and so we don't get the
+   * height measurement we want.  You can see the effect in Chrome's inspector
+   * by selecting the container and noting that its highlighted area does not include
+   * the top margin from its first paragraph.
+   */
+  /*
+   ------------------------ top of window
+   |                       <- margin from p#first, not included in outerHeight()
+   <div#intro> ------------- top of div#intro
+   | <p#first> First paragraph.
+  */
+}
+
 /* -------------------------- Modules -------------------------------*/
 
 #photo {
@@ -124,18 +143,22 @@ textarea {
    * rather than margin-top on paragraphs */
   #letter p + p {
     text-indent: 1.5em;
-    margin-top: 0
+    padding-top: 0
   }
 
   /* and tighten spacing */
   #letter p {
-    margin: 0 20px;
+    padding: 0 20px;
+  }
+  #photo .caption div {
+    padding: 0 20px;
   }
 
 }
 @media screen and (min-width: 800px) {
   #letter p {
-    margin: 0.83em 20px 0;
+    padding: 0.83em 20px 0;
+  }
   #letter .gradient { /* visual clue that the user should scroll to see more */
     position: absolute;
     bottom: 0;
@@ -154,7 +177,7 @@ textarea {
 }
 
 #intro p {
-  margin: 0.83em 20px;
+  padding: 0.83em 20px;
 }
 
 
@@ -166,15 +189,15 @@ textarea {
 }
 #letter .closing {
     font-style: italic;
-    margin-bottom: .83em;
+    padding-bottom: .83em;
 }
 #letter p:first-child {
     /* extra space at start of letter and between text and closing */
-    margin-top: 2.17em;
+    padding-top: 2.17em;
     /* margin from http://www.w3.org/Style/Examples/007/indent.en.html */
 }
 #letter .closing p + p {
-    margin-top: 0; /* paragraphs in closing / signatuure treated as one logical block */
+    padding-top: 0; /* paragraphs in closing / signature treated as one logical block */
 }
 
 header {
