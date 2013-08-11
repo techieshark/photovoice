@@ -56,6 +56,18 @@ $(document).ready(function() {
         loadStory(id_from_url);
       }
     }
+
+    // enable swiping for more content
+    // var element = $('#letter .is-onscreen .text').get(0);
+    var element = $('body').get(0);
+    var hammertime = Hammer(element, {
+            prevent_default: true,
+          }).on("swipeleft", function(event) {
+        var next = nextStoryID();
+        console.log('advancing to next story: ' + next);
+        loadStory(next);
+    });
+
   });
 
   // clicking page title toggles intro text
@@ -125,7 +137,50 @@ function adjust_heights() {
   $('#letter').height($(window).height() - visibleHeaderSize());
 }
 
+// call with value to set, without to get
+function lastStoryID(value) {
+  if (typeof value === 'undefined') { // get
+    if (typeof lastStoryID.id === 'undefined') {
+      return -1; // can't do anything until value pulled from SQL
+    }
+  } else { // set
+    lastStoryID.id = value;
+  }
+  return lastStoryID.id;
+}
+
+function firstStoryID(value) {
+  if (typeof value === 'undefined') { // get
+    if (typeof firstStoryID.id === "undefined") {
+      return -1;
+    }
+  } else { // set
+    firstStoryID.id = value;
+  }
+
+  return firstStoryID.id;
+}
+
+var currentStoryID;
+
+// return ID of story following the currently shown story
+// when we get to the end, loop back to the beginning
+function nextStoryID() {
+  if (typeof currentStoryID === 'undefined' || currentStoryID+1 > lastStoryID()) {
+    return firstStoryID();
+  } else {
+    return currentStoryID + 1;
+  }
+}
+
 var sql = new cartodb.SQL({ user: 'techieshark' });
+
+sql.execute("SELECT MIN(cartodb_id) FROM photovoice").done(function(data) {
+  firstStoryID(data.rows[0].min);
+});
+sql.execute("SELECT MAX(cartodb_id) FROM photovoice").done(function(data) {
+  lastStoryID(data.rows[0].max);
+});
 
 cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {
     shareable: false,
@@ -167,6 +222,9 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
   });
 
 function loadStory(story_id) {
+      // save current story id
+      currentStoryID = story_id;
+
       // hide page intro text
       $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
       adjust_heights();
