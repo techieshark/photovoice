@@ -338,10 +338,11 @@ header, #letter {
       overflow: hidden;
       top: 0;
   }
-  #photo img {
+  /* I don't recall why I set a border on the image. */
+  /*#photo img {
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-}
+}*/
   #photo .caption {
     position: absolute;
     bottom: 0px;
