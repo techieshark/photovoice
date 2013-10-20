@@ -63,9 +63,13 @@ $(document).ready(function() {
     var hammertime = Hammer(element, {
             prevent_default: true,
           }).on("swipeleft", function(event) {
-        var next = nextStoryID();
-        console.log('advancing to next story: ' + next);
-        loadStory(next);
+        var story = nextStoryID();
+        console.log('advancing to next story: ' + story);
+        loadStory(story);
+    }).on("swiperight", function(event) {
+        var story = prevStoryID();
+        console.log('reversing to story: ' + story);
+        loadStory(story);
     });
 
   });
@@ -173,6 +177,18 @@ function nextStoryID() {
   }
 }
 
+// return ID of story preceding the currently shown story
+// when we get to the beginning, loop back to the end
+function nextStoryID() {
+  if (typeof currentStoryID === 'undefined' || currentStoryID < firstStoryID()) {
+    return lastStoryID();
+  } else {
+    return currentStoryID - 1;
+  }
+}
+
+
+
 var sql = new cartodb.SQL({ user: 'techieshark' });
 
 sql.execute("SELECT MIN(cartodb_id) FROM photovoice").done(function(data) {
@@ -213,17 +229,24 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
       // console.log("mouse over polygon with data: " + data);
       // console.log("mouse over cartodb_id: " + data.cartodb_id);
 
-      //set new history state so we can come back to this item later. (TODO: test on IE < 10)
-      var state = { story_id: data.cartodb_id };
-      history.pushState(state, "", "?photo=" + state.story_id);
+      // load new story, unless it is the same story as current story
+      if ( (typeof currentStoryID === 'integer') && currentStoryID != data.cartodb_id) {
+        //set new history state so we can come back to this item later. (TODO: test on IE < 10)
+        var state = { story_id: data.cartodb_id };
+        history.pushState(state, "", "?photo=" + state.story_id);
 
-      loadStory(data.cartodb_id);
+        loadStory(data.cartodb_id);
+      }
+
     });
   });
 
 function loadStory(story_id) {
       // save current story id
       currentStoryID = story_id;
+
+      // TODO - cartodb api: pull up push pin for specified id (for the case
+      // that it is being loaded from browser history, swipe navigation, etc).
 
       // hide page intro text
       $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
