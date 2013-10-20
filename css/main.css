@@ -214,7 +214,7 @@ header h1 {
     border-top: 1px solid whitesmoke;
     border-bottom: 1px solid #c0c0c0; /* darker: more visual separation from content below. */
 }
-header a {
+header h1 a {
     text-decoration: none;
     color: #111;
 }
