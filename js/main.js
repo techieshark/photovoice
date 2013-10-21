@@ -239,6 +239,15 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
       }
 
     });
+
+    sublayer.on('error', function(err) {
+        //cartodb.log.log('error: ' + err);
+        console.log('error' + err);
+    });
+  })
+  .on('error', function() {
+        //cartodb.log.log("some error occurred");
+        console.log('some error occurred');
   });
 
 function loadStory(story_id) {
@@ -293,11 +302,11 @@ function loadStory(story_id) {
         * 2 - new photo in transition (keep above old photo)
         * 3 - caption (keep above new photo), set in CSS */
         last_photo = $('#photo img.is-onscreen');
-        $('#photo img.is-offscreen').css('z-index', 2).css('margin-left', '1000px')
+        $('#photo img.is-offscreen').css('z-index', 2).css('left', '1000px')
           .css('position', 'absolute').addClass('is-onscreen').removeClass('is-offscreen')
           .attr('src', data.rows[0].img)
           .animate(
-            {'margin-left':0},
+            {'left':0},
             { duration: 500,
               complete: function () {
                 /* after we've animated the image in, we 1) hide the previous image,
