@@ -270,7 +270,13 @@ header h1 a {
   box-sizing: border-box;
   /* http://html5please.com/#box-sizing */
  }
-
+/* except the infowindow */
+div.cartodb-popup div.cartodb-popup-content-wrapper {
+  /* with border-box sizing, we can set width below equal to
+     that of cartodb-popup */
+  width: 226px !important;
+  max-width: 226px !important;
+}
 
 header {
     padding: 0;
