@@ -230,7 +230,9 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
       // console.log("mouse over cartodb_id: " + data.cartodb_id);
 
       // load new story, unless it is the same story as current story
-      if ( (typeof currentStoryID === 'integer') && currentStoryID != data.cartodb_id) {
+      if ( !currentStoryID /* null on first page load for FireFox */ ||
+            ((typeof currentStoryID === 'number') && currentStoryID != data.cartodb_id)
+         ) {
         //set new history state so we can come back to this item later. (TODO: test on IE < 10)
         var state = { story_id: data.cartodb_id };
         history.pushState(state, "", "?photo=" + state.story_id);
