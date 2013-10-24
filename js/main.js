@@ -1,13 +1,14 @@
+/*jslint browser: true*/
+/*global $, jQuery*/
+/*jslint indent: 2*/
+"use strict";
 
 // pull letter from database and update offscreen content
 function setLetter(data) {
   // convert description to html
-  var lines = data.rows[0].description_en.split('\n\n');
-  var paras = [];
-  for (var i = 0; i < lines.length; i++) {
-    paras[i] = "<p>" + lines[i] + "</p>";
-  }
-  html = paras.join('\n');
+  var lines = data.rows[0].description_en.split('\n\n'),
+    html = lines.map(function (line) { return '<p>' + line + '</p>'; }).join('\n');
+
   $('#letter .is-offscreen .text').html(html);
 
   //set signature
@@ -21,19 +22,19 @@ function headerBoxHeight() {
   var intro = $('#intro');
   // Ugh. Must be a cleaner way to accomplish the collapsing effect...
   return (
-          intro.height()
-          + parseFloat(intro.css('padding-top'))
-          + parseFloat(intro.css('padding-bottom'))
+          intro.height() +
+          parseFloat(intro.css('padding-top')) +
+          parseFloat(intro.css('padding-bottom'))
          );
 }
 
 // from http://css-tricks.com/snippets/javascript/get-url-variables/
-function getQueryVariable(variable)
-{
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1),
+    vars = query.split("&"),
+    i, pair;
+  for (i=0;i<vars.length;i++) {
+    pair = vars[i].split("=");
     if(pair[0] == variable){return pair[1];}
   }
   return(false);
@@ -46,12 +47,13 @@ $(document).ready(function() {
   // TODO: test on IE
   window.addEventListener('popstate', function(event) {
     // popstate event occurs on page load but we may or may not have a state to work with.
+    console.log("popstate!");
     if (event.state && event.state.story_id) { // if provided a state, we can return to that state's story
       console.log('popstate fired; loading story ' + event.state.story_id);
       loadStory(event.state.story_id);
     }
     else { // even without a state, we may have a story in the url; if so, load it.
-      id_from_url = getQueryVariable('photo');
+      var id_from_url = getQueryVariable('photo');
       if (id_from_url) {
         loadStory(id_from_url);
       }
@@ -60,17 +62,16 @@ $(document).ready(function() {
     // enable swiping for more content
     // var element = $('#letter .is-onscreen .text').get(0);
     var element = $('body').get(0);
-    var hammertime = Hammer(element, {
-            prevent_default: true,
-          }).on("swipeleft", function(event) {
+    var hammertime = new Hammer(element, { prevent_default: true,})
+      .on("swipeleft", function(event) {
         var story = nextStoryID();
         console.log('advancing to next story: ' + story);
         loadStory(story);
-    }).on("swiperight", function(event) {
+      }).on("swiperight", function(event) {
         var story = prevStoryID();
         console.log('reversing to story: ' + story);
         loadStory(story);
-    });
+      });
 
   });
 
@@ -198,6 +199,8 @@ sql.execute("SELECT MAX(cartodb_id) FROM photovoice").done(function(data) {
   lastStoryID(data.rows[0].max);
 });
 
+var myvis, mylayers;
+
 cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a0-11e2-b27e-dbfe355cb68f/viz.json', {
     shareable: false,
     title: false,
@@ -211,9 +214,12 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
   })
   .done(function(vis, layers) {
 
+    myvis = vis;
+    mylayers = layers;
+
      // preload images
     sql.execute("SELECT img FROM photovoice").done(function(data) {
-      preloader = $('#preloader');
+      var preloader = $('#preloader');
       data.rows.forEach(function(row) {
         if (row['img'] != '') {
           preloader.append($('<img src="' + row['img'] + '"/>'));
@@ -227,17 +233,20 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
 
     sublayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
       // console.log("mouse over polygon with data: " + data);
-      // console.log("mouse over cartodb_id: " + data.cartodb_id);
+      console.log("mouse clicked cartodb_id: " + data.cartodb_id);
 
       // load new story, unless it is the same story as current story
       if ( !currentStoryID /* null on first page load for FireFox */ ||
             ((typeof currentStoryID === 'number') && currentStoryID != data.cartodb_id)
          ) {
+        console.log("loading story " + data.cartodb_id);
         //set new history state so we can come back to this item later. (TODO: test on IE < 10)
         var state = { story_id: data.cartodb_id };
         history.pushState(state, "", "?photo=" + state.story_id);
 
         loadStory(data.cartodb_id);
+      } else {
+        console.log("not loading story " + data.cartodb_id);
       }
 
     });
@@ -252,9 +261,11 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
         console.log('some error occurred');
   });
 
+var myStory;
+
 function loadStory(story_id) {
-      // save current story id
-      currentStoryID = story_id;
+      // save current story id, always as number
+      currentStoryID = parseInt(story_id);
 
       // TODO - cartodb api: pull up push pin for specified id (for the case
       // that it is being loaded from browser history, swipe navigation, etc).
@@ -263,9 +274,12 @@ function loadStory(story_id) {
       $('header').css('margin-top', 0 - headerBoxHeight()).addClass('is-collapsed').delay(500);
       adjust_heights();
 
-      sql.execute("SELECT * FROM photovoice WHERE cartodb_id = {{id}}", { id: story_id })
-        .done(function(data) {
+      sql.execute("SELECT ST_AsText(the_geom), * FROM photovoice WHERE cartodb_id = {{id}}", { id: story_id })
+        .done(function(data) { // location_description, img
           console.log(data.rows[0]);
+
+          myStory = data.rows[0];
+
           // set image
           // $('#photo img').attr('src', data.rows[0].img);
 
