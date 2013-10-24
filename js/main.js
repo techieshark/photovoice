@@ -225,7 +225,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
     var sublayer = layers[1].getSubLayer(0);
     sublayer.infowindow.set('template', $('#infowindow_template').html());
 
-    layers[1].on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
+    sublayer.on('featureClick', function(e, latlng, pos, data, subLayerIndex) {
       // console.log("mouse over polygon with data: " + data);
       // console.log("mouse over cartodb_id: " + data.cartodb_id);
 
