@@ -207,7 +207,7 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
     center_lat: 45.519820,
     center_lon: -123.022499,
     zoom: 11,
-    infowindow: false
+    infowindow: true,
   })
   .done(function(vis, layers) {
 
