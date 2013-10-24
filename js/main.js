@@ -277,23 +277,7 @@ function loadStory(story_id) {
 
          setLetter(data);
 
-        // animate letter
-        var last_letter = $('#letter .is-onscreen');
-        last_letter.animate({'margin-left':'-33em'},500).hide().removeClass('is-onscreen');
-        $('#letter .is-offscreen').css('width', $('#letter').width()).css('position','absolute')
-          .css('margin-left', '1000px').show()
-          .animate(
-            {'margin-left':0},
-            { duration: 500,
-              complete: function() {
-                 // width is fixed during animation to prevent scrollbar from appearing mid-animation,
-                // but needs to be set back to auto after complete so it will update if user adjusts page
-                // size later.
-                $(this).css('width', 'auto').css('position', 'static');
-              }
-            }).addClass('is-onscreen').removeClass('is-offscreen');
-        last_letter.addClass('is-offscreen');
-
+         var slideTime = 500;
 
         // ... and once letter slides in, we'll animate photo.
         /* Note: z-index order used to keep select content above other content:
@@ -301,40 +285,54 @@ function loadStory(story_id) {
         * 1 - photo
         * 2 - new photo in transition (keep above old photo)
         * 3 - caption (keep above new photo), set in CSS */
-        last_photo = $('#photo img.is-onscreen');
+        var last_photo = $('#photo img.is-onscreen');
         $('#photo img.is-offscreen').css('z-index', 2).css('left', '1000px')
           .css('position', 'absolute').addClass('is-onscreen').removeClass('is-offscreen')
           .attr('src', data.rows[0].img)
           .animate(
             {'left':0},
-            { duration: 500,
+            { duration: slideTime,
               complete: function () {
-                /* after we've animated the image in, we 1) hide the previous image,
-                 * 2) switch back to relative positioning to take up the proper space, and
-                 * 3) lower the z-index since we're not trying to cover the old image */
+                // after we've animated the image in, we 1) hide the previous image,
+                // 2) switch back to relative positioning to take up the proper space, and
+                // 3) lower the z-index since we're not trying to cover the old image
                 last_photo.removeClass('is-onscreen').addClass('is-offscreen');
                 $(this).css('position','relative').css('z-index', 1);
               }
             });
 
-          // var active = $('#photo span.is-onscreen');
-          //Slider Animation
-          // $('#photo span.is-offscreen').css('margin-left', '1000em').show()
-          // .animate(
-          //   { 'margin-left': 0 },
-          //   {
-          //    duration: 'slow',
-          //    easing: 'easeOutBounce'
-          //   });
 
-           // .animate(
-           //  { left: 0 }, {
-           //   duration: 'slow',
-           //   easing: 'easeOutBounce'
-           //  });
+        // animate letter
+        var last_letter = $('#letter .is-onscreen'),
+            letter_width = $('#letter').width();
+        last_letter.css('width', letter_width)
+                   .css('position', 'absolute')
+                   .animate(
+                      {'left': '' + (-100-letter_width) + 'px'},
+                      { duration: slideTime - 200,
+                        complete: function() {
+                          $(this).hide().removeClass('is-onscreen');
+                        }
+                      });
 
-          // $('#photo .caption span');
-          // $('#photo .caption').text(data.rows[0].location_description);
+        $('#letter .is-offscreen').css('width', letter_width)
+          .css('position','relative') //.css('background-color', 'red')
+          .css('float', 'left') // so we don't push last letter down the page
+          .css('left', '1300px').show()
+          .animate(
+            {'left':0},
+            { duration: slideTime + 750,
+              complete: function() {
+                 // width is fixed during animation to prevent scrollbar from appearing mid-animation,
+                // but needs to be set back to auto after complete so it will update if user adjusts page
+                // size later.
+                $(this).css('width', 'auto').css('position', 'static');
+                //$(this).css('background-color', 'white');
+              }
+            }).addClass('is-onscreen').removeClass('is-offscreen');
+        last_letter.addClass('is-offscreen');
+
+
 
 
         })
