@@ -184,7 +184,7 @@ function nextStoryID() {
 
 // return ID of story preceding the currently shown story
 // when we get to the beginning, loop back to the end
-function nextStoryID() {
+function prevStoryID() {
   if (typeof currentStoryID === 'undefined' || currentStoryID < firstStoryID()) {
     return lastStoryID();
   } else {
