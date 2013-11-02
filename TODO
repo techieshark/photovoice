@@ -10,4 +10,6 @@ ideas -
 * Info icon / hide icon in header
 * "click map or start with _Jane_Random's_story_."
 * When loading a story/photo from a url or the browser history, we should also select the corresponding point on the map and show its info display 
-* If a point has been selected via the map, clicking it again shouldn't reload the associated content
+* If a point has been selected via the map, clicking it again shouldn't reload the associated content but there should be a visual indication that you're selecting something already selected (fixing the previous issue - showing infowindows on story change should help). 
+* Are there offline mapping stacks? Goal: download images for an area at various zoom levels and cache for future offline use. 
+* Look at abstracting model (backbone?) so it is easy to switch between cartodb and testing framework
