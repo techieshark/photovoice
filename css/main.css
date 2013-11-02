@@ -320,7 +320,11 @@ header, #letter {
 @media screen and (max-width: 799px) {
   #map {
     min-height: 300px;
+    height: 300px;
     border-left: none;
+  }
+  #letter {
+    height: 300px;
   }
   header {
     border-right: none;
