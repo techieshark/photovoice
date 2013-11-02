@@ -121,10 +121,14 @@ function visibleHeaderSize() {
 
 var smallest_breakpoint = 800;
 
+function isNarrow() {
+  return $(window).width() < smallest_breakpoint;
+}
+
 function adjust_heights() {
 
   // mobile size gets different layout without dynamic height.
-  if ($(window).width() < smallest_breakpoint) {
+  if (isNarrow()) {
     $('#letter').css('height', 'auto');
     return;
   }
@@ -279,6 +283,7 @@ function loadStory(story_id) {
           console.log(data.rows[0]);
 
           myStory = data.rows[0];
+          var slideTime = 750;
 
           // set image
           // $('#photo img').attr('src', data.rows[0].img);
@@ -287,13 +292,11 @@ function loadStory(story_id) {
           var caption = data.rows[0].location_description;
           var last_caption = $('#photo .caption .is-onscreen').animate({'margin-left':'-33em'}, 500).hide().removeClass('is-onscreen');
           $('#photo .caption .is-offscreen').text(caption).css('margin-left', '1000px').show()
-            .animate({'margin-left':0}, 500).addClass('is-onscreen').removeClass('is-offscreen');
+            .animate({'margin-left':0}, slideTime).addClass('is-onscreen').removeClass('is-offscreen');
           last_caption.addClass('is-offscreen');
 
 
          setLetter(data);
-
-         var slideTime = 500;
 
         // ... and once letter slides in, we'll animate photo.
         /* Note: z-index order used to keep select content above other content:
@@ -320,7 +323,14 @@ function loadStory(story_id) {
 
         // animate letter
         var last_letter = $('#letter .is-onscreen'),
-            letter_width = $('#letter').width();
+            letter_width = $('#letter').width(),
+            new_height = $('#letter .is-offscreen').css('width', letter_width).css('height');
+
+        /* once last_letter is positioned absolutely, it'll be removed from
+         * document flow and its container would have zero height, so instead we
+         * set height to be the height of the new letter so you'll see new letter sliding in */
+        $('#letter').css('height', new_height);
+
         last_letter.css('width', letter_width)
                    .css('position', 'absolute')
                    .animate(
@@ -332,18 +342,28 @@ function loadStory(story_id) {
                       });
 
         $('#letter .is-offscreen').css('width', letter_width)
-          .css('position','relative') //.css('background-color', 'red')
-          .css('float', 'left') // so we don't push last letter down the page
-          .css('left', '1300px').show()
+          .css('position','relative')
+          .css('float', 'left') // pull out of doc flow so we don't push previous letter down the page
+          .css('left', '1300px').show() // TODO 1300PX -> window width + 300px (dynamic)
           .animate(
             {'left':0},
-            { duration: slideTime + 750,
+            { duration: slideTime + (isNarrow() ? 0 : 750), // in wide windows, text slides in after photo
               complete: function() {
                  // width is fixed during animation to prevent scrollbar from appearing mid-animation,
                 // but needs to be set back to auto after complete so it will update if user adjusts page
                 // size later.
-                $(this).css('width', 'auto').css('position', 'static');
-                //$(this).css('background-color', 'white');
+                $(this).css('width', 'auto').css('float', 'none').css('position', 'static').css('float', 'none');
+
+                $('#letter').toggleClass('paused');
+
+                // Ensure that height is set to 'auto' while transitions are paused
+                // (this prevents an unwanted vertical bounce of the map below the letter).
+                window.setTimeout(function() {
+                  $('#letter').css('height', 'auto'); // so it sets height based on contents
+                  window.setTimeout(function() {
+                    $('#letter').toggleClass('paused');
+                  }, 1)
+                }, 1);
               }
             }).addClass('is-onscreen').removeClass('is-offscreen');
         last_letter.addClass('is-offscreen');

@@ -222,6 +222,20 @@ header h1 a {
 
 
 /* -------------------------- Animation------------------------------*/
+.paused {
+  -ms-animation-play-state:paused;
+  -o-animation-play-state:paused;
+  -moz-animation-play-state:paused;
+  -webkit-animation-play-state:paused;
+  animation-play-state: paused;
+
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 .caption div.is-onscreen {
     display: inline-block; /* allow two caption divs side by side */
 }
