@@ -113,6 +113,33 @@ $(document).ready(function() {
       e.preventDefault();
     });
 
+
+  $('#language a').on('click', function(e) {
+    // switch to the selected language
+    // which language?
+    var lang = $(this).attr('hreflang');
+    console.log("switching to " + lang);
+
+    // update UI with new language
+    stories.lang = lang;
+    if (stories.current) {
+      var lines = stories.current.description().split('\n\n'),
+          html = lines.map(function (line) { return '<p>' + line + '</p>'; }).join('\n');
+      $('#letter .is-onscreen .text').html(html);
+    }
+
+    // this language is now active and others are inactive
+    $('#language a').removeClass('active');
+    $(this).addClass('active').on('click', function(e) { e.preventDefault(); });
+
+    e.preventDefault(); // there's nothing left to do.
+  });
+
+  $('#language a.active').on('click', function(e){
+    e.preventDefault();
+  });
+
+
   // update module sizes on page load
   adjust_heights();
 
