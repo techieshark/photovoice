@@ -385,6 +385,23 @@ header, #letter {
   }
 }
 
+#language {
+  text-align: right;
+  font-size: smaller;
+  margin: 5px 20px;
+}
+#language a {
+  color: #747474;
+}
+#language a.active {
+  font-weight: bold;
+  text-decoration: none;
+  cursor: default;
+}
+#language a + a {
+  margin-left: 6px;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */

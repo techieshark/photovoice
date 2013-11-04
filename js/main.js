@@ -3,10 +3,34 @@
 /*jslint indent: 2*/
 "use strict";
 
+
+function Photovoices() {
+
+  this.lang = "en"; // default to english
+}
+
+function Story(data) {
+  // get the description from this story in the currently selected language
+  this.description = function() {
+    return this['description_' + stories.lang];
+  }
+
+  // initialize values
+  this.id = data.cartodb_id;
+  this.addr = data.location;
+  this.location_description = data.location_description;
+  this.description_en = data.description_en;
+  this.description_es = data.description_es;
+  this.image = data.image;
+  this.signature = data.signature;
+}
+
+
+var stories = new Photovoices();
 // pull letter from database and update offscreen content
 function setLetter(data) {
   // convert description to html
-  var lines = data.rows[0].description_en.split('\n\n'),
+  var lines = data.rows[0]['description_' + stories.lang].split('\n\n'),
     html = lines.map(function (line) { return '<p>' + line + '</p>'; }).join('\n');
 
   $('#letter .is-offscreen .text').html(html);
@@ -193,7 +217,6 @@ function prevStoryID() {
 }
 
 
-
 var sql = new cartodb.SQL({ user: 'techieshark' });
 
 sql.execute("SELECT MIN(cartodb_id) FROM photovoice").done(function(data) {
@@ -265,7 +288,6 @@ cartodb.createVis('map', 'http://techieshark.cartodb.com/api/v2/viz/519b0a24-f1a
         console.log('some error occurred');
   });
 
-var myStory;
 
 function loadStory(story_id) {
       // save current story id, always as number
@@ -282,7 +304,8 @@ function loadStory(story_id) {
         .done(function(data) { // location_description, img
           console.log(data.rows[0]);
 
-          myStory = data.rows[0];
+          stories.current = new Story(data.rows[0]);
+          //stories.current = data.rows[0];
           var slideTime = 750;
 
           // set image
